@@ -16,8 +16,8 @@ export default function DiscoverMission() {
         by the community.
       </p>
       <p className="text-[var(--gray-500)] text-lg leading-relaxed">
-        LBX is not just a token — it's a stake in a transparent, yield-driven investment strategy. 
-        You’re not just buying a coin, you’re backing a fund with purpose.
+        LBX is not just a token &mdash; it&rsquo;s a stake in a transparent, yield-driven investment strategy. 
+        You&rsquo;re not just buying a coin, you&rsquo;re backing a fund with purpose.
       </p>
     </section>
   )

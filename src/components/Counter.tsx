@@ -27,9 +27,12 @@ export default function Counter() {
       </h4>
       <p className="text-4xl md:text-5xl font-bold text-[var(--green-200)] tracking-tight">
         {capital !== null
-          ? `$${capital.toLocaleString('en-US', { minimumFractionDigits: 2 })}`
-          : 'Loading...'}
-      </p>
+        ? `$${capital.toLocaleString('en-US', {
+            minimumFractionDigits: 6,
+            maximumFractionDigits: 6,
+          })}`
+        : 'Loading...'}
+       </p>
     </section>
   )
 }

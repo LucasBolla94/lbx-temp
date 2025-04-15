@@ -2,7 +2,7 @@
 
 :root {
   --background: #ffffff;
-  --foreground: #171717;
+  --foreground: ##ffffff;
   --black-500: #0f1013;
   --black-100: #1b1d22;
   --green-200: #38c768;
@@ -27,7 +27,11 @@
 }
 
 body {
-  background: var(--background);
+  background-image: url('/BG.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }

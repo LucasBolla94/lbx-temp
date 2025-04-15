@@ -1,36 +1,64 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 💹 LBX Finance – Real-Yield DeFi Fund
 
-## Getting Started
+> A transparent, community-guided crypto investment fund built on Solana.
 
-First, run the development server:
+![LBX Banner](./public/shield.png)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+LBX Finance is a closed-end DeFi investment fund designed to deliver **real, sustainable yield** through carefully managed on-chain strategies — starting with liquidity provisioning and expanding to multi-pool vaults. The project combines financial logic with transparency, automation and token-based governance.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 🚀 How It Works
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+1. **Users register** on the LBX dashboard.
+2. **LBX tokens are purchased** directly through the panel or on the open market (Orca, Raydium).
+3. **Profits are generated weekly** via DeFi pools.
+4. **Dividends are calculated and reinvested automatically.**
+5. **Token holders receive value growth** and can participate in governance decisions.
 
-## Learn More
+---
 
-To learn more about Next.js, take a look at the following resources:
+## 🪙 About the LBX Token
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- 🗳️ **Governance**: Vote on fund decisions through the dashboard.
+- 📈 **Real Yield**: Token value is backed by actual revenue, not speculation.
+- 🧩 **Inflation-Controlled**: New tokens are only minted when the fund has cash-on-hand, and always under LBX management approval.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+---
 
-## Deploy on Vercel
+## 🔐 Transparency & Communication
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- ✅ All operations are visible through the official wallet:  
+  `5ArPQSA9vM7sukJzsFdkEnUzG5NALCDDcEm6Li5VoZRS`
+- 📊 Weekly dividends are automated and stored in Firestore.
+- 📢 All updates are announced through:
+  - Telegram: [@lbxgroup_finance](https://t.me/lbxgroup_finance)
+  - Twitter/X: [@lbxfinance](https://x.com/lbxfinance)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+
+## 🧭 Roadmap (Preview)
+
+- ✅ Launch of investment fund and LBX token
+- 🔄 Real-yield automation via hourly dividend scripts
+- 🛠️ Dashboard with staking and performance tracking
+- 🔐 LBXD governance token
+- 🌍 Expansion to new liquidity strategies
+
+---
+
+## 📦 Tech Stack
+
+- **Frontend**: Next.js 14 (App Router), TypeScript, TailwindCSS
+- **Backend**: Firebase Firestore (Realtime DB), Firebase Admin
+- **Automation**: Node.js script for dividend calculations (runs on Linux VPS)
+- **Design**: Dark mode with custom theme colors
+
+---
+
+## 🛠️ Local Development
+
+1. Clone o repositório:
+   ```bash
+   git clone https://github.com/seuusuario/lbx-finance.git
+   cd lbx-finance

@@ -9,10 +9,12 @@ export default function Home() {
     <div className="relative bg-[var(--black-500)] text-[var(--gray-200)] min-h-screen overflow-hidden">
       {/* Background com imagem e overlay */}
       <Image
-        src="/bg.png"
+        src="/BG.png"
         alt="Background"
         fill
         className="absolute z-0 object-cover opacity-80"
+        priority
+        sizes='100vw'
       />
 
       {/* Conteúdo sobre o fundo */}

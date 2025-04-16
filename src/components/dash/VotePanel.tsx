@@ -16,53 +16,72 @@ import {
   getAccount,
 } from '@solana/spl-token'
 
-const LBX_MINT = new PublicKey('LBXzvWdEFJbHva1Qkq6BqAVey8wWzF8P3wywowguMei')
+// Define types for better type checking
+type Poll = {
+  id: string
+  question: string
+  options: string[]
+  // add other fields if necessary
+}
+
+type Vote = {
+  weight: number
+  choice: string
+  // add other fields if necessary
+}
+
+type ResultItem = {
+  label: string
+  percent: number
+}
 
 export default function VotePanel() {
   const { publicKey } = useWallet()
-  const [poll, setPoll] = useState<any>(null)
+  const [poll, setPoll] = useState<Poll | null>(null)
   const [selected, setSelected] = useState<string | null>(null)
-  const [hasVoted, setHasVoted] = useState(false)
+  const [hasVoted, setHasVoted] = useState<boolean>(false)
   const [voteWeight, setVoteWeight] = useState<number>(0)
-  const [result, setResult] = useState<any>(null)
+  const [result, setResult] = useState<ResultItem[] | null>(null)
 
-  // 1. Carrega a enquete atual
+  // 1. Load the current poll
   useEffect(() => {
     const loadPoll = async () => {
       try {
         const snapshot = await getDocs(collection(db, 'polls'))
         if (snapshot.empty || snapshot.docs.length === 0) {
           console.log("No polls found")
-          // Pode definir um estado para indicar que não há enquete ativa
           return
         }
-        const latest = snapshot.docs[0]
-        setPoll({ id: latest.id, ...latest.data() })
-      } catch (error) {
-        console.error("Error loading poll:", error)
+        const latestDoc = snapshot.docs[0]
+        const latestData = latestDoc.data()
+        // Assuming the document has fields "question" and "options" (an array of strings)
+        setPoll({ id: latestDoc.id, ...latestData } as Poll)
+      } catch (_error) {
+        console.error("Error loading poll")
       }
     }
     loadPoll()
   }, [])
 
-  // 2. Verifica se já votou e carrega o peso
+  // 2. Check if the user has already voted and load vote weight
   useEffect(() => {
     const checkStatus = async () => {
       if (!publicKey || !poll) return
 
       const voteRef = doc(db, `polls/${poll.id}/votes`, publicKey.toBase58())
       const voteSnap = await getDoc(voteRef)
-
       setHasVoted(voteSnap.exists())
 
       try {
-        const ata = await getAssociatedTokenAddress(LBX_MINT, publicKey)
-        // Note: Certifique-se de obter a conexão correta; aqui usamos window.solana.connection,
-        // mas pode ser necessário ajustar conforme sua configuração.
-        const accInfo = await getAccount(window.solana.connection, ata)
+        const ata = await getAssociatedTokenAddress(
+          new PublicKey('LBXzvWdEFJbHva1Qkq6BqAVey8wWzF8P3wywowguMei'),
+          publicKey
+        )
+        // Adjust connection as needed; here we access it via window.solana.connection
+        const accInfo = await getAccount((window as any).solana.connection, ata)
         const balance = Number(accInfo.amount) / 10 ** 9
         setVoteWeight(balance)
-      } catch (error) {
+      } catch (_error) {
         setVoteWeight(0)
       }
     }
@@ -70,7 +89,7 @@ export default function VotePanel() {
     checkStatus()
   }, [publicKey, poll])
 
-  // 3. Envia o voto
+  // 3. Submit the vote
   const handleVote = async () => {
     if (!poll || !publicKey || !selected || voteWeight < 1000) return
 
@@ -85,19 +104,19 @@ export default function VotePanel() {
     setHasVoted(true)
   }
 
-  // 4. Carrega resultado
+  // 4. Load voting results
   useEffect(() => {
     const loadResults = async () => {
       if (!poll || !hasVoted) return
 
       const snapshot = await getDocs(collection(db, `polls/${poll.id}/votes`))
-      const votes = snapshot.docs.map(doc => doc.data())
+      const votes: Vote[] = snapshot.docs.map(doc => doc.data() as Vote)
 
       const totalWeight = votes.reduce((sum, v) => sum + v.weight, 0)
-      const grouped = poll.options.map((opt: string) => {
+      const grouped: ResultItem[] = poll.options.map((opt: string) => {
         const total = votes
-          .filter(v => v.choice === opt)
-          .reduce((sum, v) => sum + v.weight, 0)
+          .filter((v: Vote) => v.choice === opt)
+          .reduce((sum: number, v: Vote) => sum + v.weight, 0)
         const percent = totalWeight > 0 ? (total / totalWeight) * 100 : 0
         return { label: opt, percent }
       })
@@ -108,7 +127,7 @@ export default function VotePanel() {
     loadResults()
   }, [hasVoted, poll])
 
-  // Renderizações condicionais
+  // Conditional rendering
   if (!publicKey)
     return (
       <div className="text-center text-sm text-zinc-400">
@@ -159,10 +178,10 @@ export default function VotePanel() {
       ) : (
         <>
           <div className="text-green-400 text-center">
-            ✅ Voto computado com sucesso!
+            ✅ Vote successfully submitted!
           </div>
           <div className="space-y-3 pt-4">
-            {result?.map((res: any) => (
+            {result?.map((res: ResultItem) => (
               <div key={res.label}>
                 <div className="text-sm mb-1">
                   {res.label} — {res.percent.toFixed(1)}%

@@ -7,7 +7,7 @@ import { db } from '@/lib/firebase/client'
 type NewsPost = {
   title: string
   content: string
-  date: any
+  date?: Date
 }
 
 export default function NewsPanel() {

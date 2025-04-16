@@ -74,7 +74,7 @@ export default function LoginForm() {
           onClick={() => setShowRegister(true)}
           className="w-full mt-4 text-green-400 underline text-sm hover:text-green-300"
         >
-          Don't have an account? Register
+          Don&apos;t have an account? Register
         </button>
       </div>
     </div>

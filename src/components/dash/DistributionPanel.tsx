@@ -8,7 +8,7 @@ type Distribution = {
   amount: number
   reference?: string
   comment?: string
-  date: any
+  date?: Date
 }
 
 export default function DistributionPanel() {
@@ -57,7 +57,7 @@ export default function DistributionPanel() {
           )}
 
           {dist.comment && (
-            <div className="text-sm text-zinc-400 italic">"{dist.comment}"</div>
+            <div className="text-sm text-zinc-400 italic">&quot;{dist.comment}&quot;</div>
           )}
 
           <div className="text-xs text-zinc-500 text-right">

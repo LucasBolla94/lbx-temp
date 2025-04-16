@@ -7,10 +7,10 @@ import { createUserWithEmailAndPassword } from 'firebase/auth'
 import { doc, setDoc } from 'firebase/firestore'
 
 type RegisterFormProps = {
-  onBack?: () => void
+  // onBack removido, pois não estava sendo utilizado
 }
 
-export default function RegisterForm({ onBack }: RegisterFormProps) {
+export default function RegisterForm() {
   const router = useRouter()
   const [form, setForm] = useState({
     name: '',
@@ -66,9 +66,13 @@ export default function RegisterForm({ onBack }: RegisterFormProps) {
       setTimeout(() => {
         router.push('/dash')
       }, 2000)
-    } catch (error: any) {
+    } catch (error: unknown) {
+      let errMsg = 'An unknown error occurred'
+      if (error instanceof Error) {
+        errMsg = error.message
+      }
       console.error(error)
-      alert('Error creating account: ' + error.message)
+      alert('Error creating account: ' + errMsg)
     }
   }
 
@@ -87,34 +91,44 @@ export default function RegisterForm({ onBack }: RegisterFormProps) {
               name="name"
               placeholder="First Name"
               onChange={handleChange}
-              className={`p-3 rounded w-full bg-zinc-700 focus:outline-none focus:ring-2 ${errors.includes('name') ? 'border border-red-500' : 'focus:ring-green-500'}`}
+              className={`p-3 rounded w-full bg-zinc-700 focus:outline-none focus:ring-2 ${
+                errors.includes('name') ? 'border border-red-500' : 'focus:ring-green-500'
+              }`}
             />
             <input
               name="lastName"
               placeholder="Last Name"
               onChange={handleChange}
-              className={`p-3 rounded w-full bg-zinc-700 focus:outline-none focus:ring-2 ${errors.includes('lastName') ? 'border border-red-500' : 'focus:ring-green-500'}`}
+              className={`p-3 rounded w-full bg-zinc-700 focus:outline-none focus:ring-2 ${
+                errors.includes('lastName') ? 'border border-red-500' : 'focus:ring-green-500'
+              }`}
             />
             <input
               name="email"
               type="email"
               placeholder="Email"
               onChange={handleChange}
-              className={`p-3 rounded w-full bg-zinc-700 focus:outline-none focus:ring-2 ${errors.includes('email') ? 'border border-red-500' : 'focus:ring-green-500'}`}
+              className={`p-3 rounded w-full bg-zinc-700 focus:outline-none focus:ring-2 ${
+                errors.includes('email') ? 'border border-red-500' : 'focus:ring-green-500'
+              }`}
             />
             <input
               name="password"
               type="password"
               placeholder="Password"
               onChange={handleChange}
-              className={`p-3 rounded w-full bg-zinc-700 focus:outline-none focus:ring-2 ${errors.includes('password') ? 'border border-red-500' : 'focus:ring-green-500'}`}
+              className={`p-3 rounded w-full bg-zinc-700 focus:outline-none focus:ring-2 ${
+                errors.includes('password') ? 'border border-red-500' : 'focus:ring-green-500'
+              }`}
             />
             <input
               name="rePassword"
               type="password"
               placeholder="Confirm Password"
               onChange={handleChange}
-              className={`p-3 rounded w-full bg-zinc-700 focus:outline-none focus:ring-2 ${errors.includes('rePassword') ? 'border border-red-500' : 'focus:ring-green-500'}`}
+              className={`p-3 rounded w-full bg-zinc-700 focus:outline-none focus:ring-2 ${
+                errors.includes('rePassword') ? 'border border-red-500' : 'focus:ring-green-500'
+              }`}
             />
             <input
               name="referCode"
@@ -128,7 +142,9 @@ export default function RegisterForm({ onBack }: RegisterFormProps) {
                 type="checkbox"
                 name="isAdult"
                 onChange={handleChange}
-                className={`mt-1 w-5 h-5 text-green-600 ${errors.includes('isAdult') ? 'ring-2 ring-red-500' : 'focus:ring-green-500'}`}
+                className={`mt-1 w-5 h-5 text-green-600 ${
+                  errors.includes('isAdult') ? 'ring-2 ring-red-500' : 'focus:ring-green-500'
+                }`}
               />
               <label className="text-sm">I confirm that I am over 18 years old</label>
             </div>
@@ -138,7 +154,9 @@ export default function RegisterForm({ onBack }: RegisterFormProps) {
                 type="checkbox"
                 name="acceptTerms"
                 onChange={handleChange}
-                className={`mt-1 w-5 h-5 text-green-600 ${errors.includes('acceptTerms') ? 'ring-2 ring-red-500' : 'focus:ring-green-500'}`}
+                className={`mt-1 w-5 h-5 text-green-600 ${
+                  errors.includes('acceptTerms') ? 'ring-2 ring-red-500' : 'focus:ring-green-500'
+                }`}
               />
               <label className="text-sm">
                 I accept the <a href="#" className="text-green-400 underline">Terms of Service</a>

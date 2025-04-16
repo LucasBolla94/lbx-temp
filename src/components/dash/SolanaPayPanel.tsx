@@ -1,10 +1,9 @@
 'use client'
 
 import { useState, useMemo } from 'react'
-import { PublicKey } from '@solana/web3.js'
+import { PublicKey, Keypair } from '@solana/web3.js'
 import { encodeURL } from '@solana/pay'
 import QRCode from 'react-qr-code'
-import { v4 as uuidv4 } from 'uuid'
 import BigNumber from 'bignumber.js'
 
 const USDC_MINT = new PublicKey('EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v')
@@ -26,7 +25,8 @@ export default function SolanaPayPanel() {
   const paymentURL = useMemo(() => {
     if (!isValid) return ''
 
-    const reference = new PublicKey(uuidv4().slice(0, 32).padEnd(32, '0'))
+    // Em vez de usar uuidv4, gera uma chave aleatória para a referência
+    const reference = Keypair.generate().publicKey
 
     const urlParams = {
       recipient: RECEIVER_WALLET,

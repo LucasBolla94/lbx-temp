@@ -8,7 +8,6 @@ import {
   doc,
   getDoc,
   setDoc,
-  query,
 } from 'firebase/firestore'
 import { useWallet } from '@solana/wallet-adapter-react'
 import { PublicKey } from '@solana/web3.js'
@@ -30,9 +29,18 @@ export default function VotePanel() {
   // 1. Carrega a enquete atual
   useEffect(() => {
     const loadPoll = async () => {
-      const snapshot = await getDocs(collection(db, 'polls'))
-      const latest = snapshot.docs[0]
-      setPoll({ id: latest.id, ...latest.data() })
+      try {
+        const snapshot = await getDocs(collection(db, 'polls'))
+        if (snapshot.empty || snapshot.docs.length === 0) {
+          console.log("No polls found")
+          // Pode definir um estado para indicar que não há enquete ativa
+          return
+        }
+        const latest = snapshot.docs[0]
+        setPoll({ id: latest.id, ...latest.data() })
+      } catch (error) {
+        console.error("Error loading poll:", error)
+      }
     }
     loadPoll()
   }, [])
@@ -49,10 +57,12 @@ export default function VotePanel() {
 
       try {
         const ata = await getAssociatedTokenAddress(LBX_MINT, publicKey)
+        // Note: Certifique-se de obter a conexão correta; aqui usamos window.solana.connection,
+        // mas pode ser necessário ajustar conforme sua configuração.
         const accInfo = await getAccount(window.solana.connection, ata)
         const balance = Number(accInfo.amount) / 10 ** 9
         setVoteWeight(balance)
-      } catch {
+      } catch (error) {
         setVoteWeight(0)
       }
     }
@@ -98,6 +108,7 @@ export default function VotePanel() {
     loadResults()
   }, [hasVoted, poll])
 
+  // Renderizações condicionais
   if (!publicKey)
     return (
       <div className="text-center text-sm text-zinc-400">

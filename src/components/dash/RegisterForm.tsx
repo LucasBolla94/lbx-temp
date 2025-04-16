@@ -6,10 +6,6 @@ import { auth, db } from '@/lib/firebase/client'
 import { createUserWithEmailAndPassword } from 'firebase/auth'
 import { doc, setDoc } from 'firebase/firestore'
 
-type RegisterFormProps = {
-  // onBack removido, pois não estava sendo utilizado
-}
-
 export default function RegisterForm() {
   const router = useRouter()
   const [form, setForm] = useState({
@@ -29,7 +25,7 @@ export default function RegisterForm() {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, type, checked } = e.target
     setForm({ ...form, [name]: type === 'checkbox' ? checked : value })
-    setErrors(prev => prev.filter(err => err !== name)) // limpa erro ao editar
+    setErrors(prev => prev.filter(err => err !== name)) // Limpa o erro assim que o usuário altera o input
   }
 
   const handleRegister = async () => {
@@ -79,7 +75,9 @@ export default function RegisterForm() {
   return (
     <div className="flex justify-center items-center min-h-screen px-4">
       <div className="bg-zinc-800 border border-zinc-700 p-8 rounded-2xl shadow-xl w-full max-w-md space-y-5 text-white">
-        <h2 className="text-2xl font-bold text-center text-green-500 mb-2">Create Your LBX Account</h2>
+        <h2 className="text-2xl font-bold text-center text-green-500 mb-2">
+          Create Your LBX Account
+        </h2>
 
         {success ? (
           <div className="text-center text-green-400 text-xl animate-pulse">
@@ -146,7 +144,9 @@ export default function RegisterForm() {
                   errors.includes('isAdult') ? 'ring-2 ring-red-500' : 'focus:ring-green-500'
                 }`}
               />
-              <label className="text-sm">I confirm that I am over 18 years old</label>
+              <label className="text-sm">
+                I confirm that I am over 18 years old
+              </label>
             </div>
 
             <div className="flex items-start space-x-3">
@@ -159,7 +159,10 @@ export default function RegisterForm() {
                 }`}
               />
               <label className="text-sm">
-                I accept the <a href="#" className="text-green-400 underline">Terms of Service</a>
+                I accept the{' '}
+                <a href="#" className="text-green-400 underline">
+                  Terms of Service
+                </a>
               </label>
             </div>
 

@@ -2,32 +2,30 @@
 
 import { useEffect, useState } from 'react'
 import { db } from '@/lib/firebase/client'
-import {
-  collection,
-  getDocs,
-  doc,
-  getDoc,
-  setDoc,
-} from 'firebase/firestore'
+import { collection, getDocs, doc, getDoc, setDoc } from 'firebase/firestore'
 import { useWallet } from '@solana/wallet-adapter-react'
-import { PublicKey } from '@solana/web3.js'
-import {
-  getAssociatedTokenAddress,
-  getAccount,
-} from '@solana/spl-token'
+import { PublicKey, Connection } from '@solana/web3.js'
+import { getAssociatedTokenAddress, getAccount } from '@solana/spl-token'
 
-// Define types for better type checking
+// Declaração global para o objeto window.solana com tipagem correta
+declare global {
+  interface Window {
+    solana: {
+      connection: Connection
+    }
+  }
+}
+
+// Define types para melhor checagem de tipos
 type Poll = {
   id: string
   question: string
   options: string[]
-  // add other fields if necessary
 }
 
 type Vote = {
   weight: number
   choice: string
-  // add other fields if necessary
 }
 
 type ResultItem = {
@@ -43,27 +41,27 @@ export default function VotePanel() {
   const [voteWeight, setVoteWeight] = useState<number>(0)
   const [result, setResult] = useState<ResultItem[] | null>(null)
 
-  // 1. Load the current poll
+  // 1. Carrega a enquete atual
   useEffect(() => {
     const loadPoll = async () => {
       try {
         const snapshot = await getDocs(collection(db, 'polls'))
         if (snapshot.empty || snapshot.docs.length === 0) {
-          console.log("No polls found")
+          console.log('No polls found')
           return
         }
         const latestDoc = snapshot.docs[0]
         const latestData = latestDoc.data()
-        // Assuming the document has fields "question" and "options" (an array of strings)
+        // Assume que o documento possui os campos "question" e "options"
         setPoll({ id: latestDoc.id, ...latestData } as Poll)
-      } catch (_error) {
-        console.error("Error loading poll")
+      } catch {
+        console.error('Error loading poll')
       }
     }
     loadPoll()
   }, [])
 
-  // 2. Check if the user has already voted and load vote weight
+  // 2. Verifica se o usuário já votou e carrega o peso do voto
   useEffect(() => {
     const checkStatus = async () => {
       if (!publicKey || !poll) return
@@ -77,11 +75,11 @@ export default function VotePanel() {
           new PublicKey('LBXzvWdEFJbHva1Qkq6BqAVey8wWzF8P3wywowguMei'),
           publicKey
         )
-        // Adjust connection as needed; here we access it via window.solana.connection
-        const accInfo = await getAccount((window as any).solana.connection, ata)
+        // Utiliza a tipagem declarada em window.solana.connection
+        const accInfo = await getAccount(window.solana.connection, ata)
         const balance = Number(accInfo.amount) / 10 ** 9
         setVoteWeight(balance)
-      } catch (_error) {
+      } catch {
         setVoteWeight(0)
       }
     }
@@ -89,7 +87,7 @@ export default function VotePanel() {
     checkStatus()
   }, [publicKey, poll])
 
-  // 3. Submit the vote
+  // 3. Submete o voto
   const handleVote = async () => {
     if (!poll || !publicKey || !selected || voteWeight < 1000) return
 
@@ -104,7 +102,7 @@ export default function VotePanel() {
     setHasVoted(true)
   }
 
-  // 4. Load voting results
+  // 4. Carrega os resultados da votação
   useEffect(() => {
     const loadResults = async () => {
       if (!poll || !hasVoted) return
@@ -127,7 +125,7 @@ export default function VotePanel() {
     loadResults()
   }, [hasVoted, poll])
 
-  // Conditional rendering
+  // Renderização condicional
   if (!publicKey)
     return (
       <div className="text-center text-sm text-zinc-400">

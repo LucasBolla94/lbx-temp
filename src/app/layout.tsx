@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 // Importa o componente client-only para o WalletProvider
-import ClientWalletProvider from "@/components/dash/ClientWalletProvider";
+import ClientWalletProvider from "@/components/ClientWalletProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",

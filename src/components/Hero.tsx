@@ -18,12 +18,13 @@ export default function Hero() {
       {/* Texto à direita */}
       <div className="w-full md:w-1/2 text-center md:text-left">
         <h2 className="text-3xl md:text-4xl font-bold text-[var(--gray-200)] mb-4">
-          Real-Yield DeFi Investment Fund
+          Construa Valor com Segurança. Faça Parte do Projeto LBX.
         </h2>
         <p className="text-[var(--gray-500)] text-lg leading-relaxed max-w-xl">
-          LBX is a closed-end crypto investment fund built on the Solana blockchain. 
-          We generate real returns from liquidity pools and reinvest the profits 
-          to grow our ecosystem and reward our token holders.
+          LBX é um projeto exclusivo que valoriza a escassez e a confiança. Com uma emissão controlada de tokens e
+          entrada limitada de participantes, cada novo membro fortalece um ecossistema projetado para crescimento
+          sustentável. Ao se juntar ao LBX, você participa de uma comunidade comprometida com a construção de valor
+          real desde o início.
         </p>
       </div>
     </section>

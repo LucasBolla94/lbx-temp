@@ -14,7 +14,7 @@
     "@solana/wallet-adapter-phantom": "^0.9.25",
     "@solana/wallet-adapter-react": "^0.15.36",
     "@solana/wallet-adapter-react-ui": "^0.9.36",
-    "@solana/wallet-adapter-wallets": "^0.19.34",
+    "@solana/wallet-adapter-wallets": "^0.19.14",
     "@solana/web3.js": "^1.43.0",
     "bignumber.js": "^9.2.1",
     "firebase": "^11.6.0",
@@ -25,6 +25,7 @@
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-qr-code": "^2.0.15",
+    "recharts": "^2.15.2",
     "uuid": "^11.1.0"
   },
   "devDependencies": {
